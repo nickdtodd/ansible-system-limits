@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: Nick Todd
+  description: Set Debian system limits
+  license: BSD
+  min_ansible_version: 1.6
+  platforms:
+    - name: Debian
+      versions:
+        - all
+  categories:
+    - system
+dependencies: []

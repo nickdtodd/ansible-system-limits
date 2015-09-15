@@ -1,0 +1,23 @@
+---
+# Processed in order so the naming is important
+limits_file_name: limits.conf
+limits_user: root
+limits_group: root
+limits_chmod: "0644"
+limits_run_task: True
+# See README.md for example
+limits_domains: []
+
+# Must end with .conf
+sysctl_file_name: sysctl.conf
+sysctl_user: root
+sysctl_group: root
+sysctl_chmod: "0644"
+sysctl_run_task: True
+sysctl_reload: True
+# See README.md for example
+sysctl_values: []
+
+pam_run_task: True
+# The files can be found by running: ls -l /etc/pam.d/
+pam_files_to_check: []

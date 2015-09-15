@@ -1,0 +1,20 @@
+---
+- name: Upload limits.conf
+  template: src=limits.conf dest=/etc/security/limits.d/{{ limits_file_name }} owner={{ limits_user }} group={{ limits_group }} mode={{ limits_chmod }}
+  when: "{{ limits_run_task }}"
+
+- name: Upload sysctl.conf
+  template: src=sysctl.conf dest=/etc/sysctl.d/{{ sysctl_file_name }} owner={{ sysctl_user }} group={{ sysctl_group }} mode={{ sysctl_chmod }}
+  when: "{{ sysctl_run_task }}"
+
+- name: Reload sysctl settings
+  shell: sysctl -p
+  when: "{{ sysctl_reload }} and {{ sysctl_run_task }}"
+
+- name: Ensure PAM entries
+  lineinfile: >
+    dest=/etc/pam.d/{{ item }} regexp='session[\s]+required[\s]+pam_limits.so'
+    line='session required pam_limits.so' state=present
+  with_items:
+    - "{{ pam_files_to_check }}"
+  when: "{{ pam_run_task}}"
