@@ -11,6 +11,10 @@
   shell: sysctl -p
   when: "{{ sysctl_reload }} and {{ sysctl_run_task }}"
 
+- name: Reload sysctl settings with system flag
+  shell: sysctl --system
+  when: "{{ sysctl_reload }} and {{ sysctl_run_task }}"
+
 - name: Ensure PAM entries
   lineinfile: >
     dest=/etc/pam.d/{{ item }} regexp='session[\s]+required[\s]+pam_limits.so'
