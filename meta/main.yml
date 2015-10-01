@@ -1,13 +1,16 @@
 ---
 galaxy_info:
   author: Nick Todd
-  description: Set Debian system limits
+  description: Set system limits
   license: BSD
   min_ansible_version: 1.6
   platforms:
     - name: Debian
       versions:
         - all
+    - name: EL
+      versions:
+        - 7
   categories:
     - system
 dependencies: []
