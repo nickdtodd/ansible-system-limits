@@ -1,19 +1,21 @@
 ---
-- name: Upload limits.conf
-  template: src=limits.conf dest=/etc/security/limits.d/{{ limits_file_name }} owner={{ limits_user }} group={{ limits_group }} mode={{ limits_chmod }}
-  when: "{{ limits_run_task }}"
+- name: Template limits.conf
+  template: src=limits.conf dest=/etc/security/limits.d/{{ limits_file_name }} owner={{ limits_user }} group={{ limits_group }} mode={{ limits_chmod }} backup=yes
+  when: limits_run_task
+  register: limitstemplates
 
-- name: Upload sysctl.conf
-  template: src=sysctl.conf dest=/etc/sysctl.d/{{ sysctl_file_name }} owner={{ sysctl_user }} group={{ sysctl_group }} mode={{ sysctl_chmod }}
-  when: "{{ sysctl_run_task }}"
+- name: Template sysctl.conf
+  template: src=sysctl.conf dest=/etc/sysctl.d/{{ sysctl_file_name }} owner={{ sysctl_user }} group={{ sysctl_group }} mode={{ sysctl_chmod }} backup=yes
+  when: sysctl_run_task
+  register: sysctltemplates
 
 - name: Reload sysctl settings
-  shell: sysctl -p
-  when: "{{ sysctl_reload }} and {{ sysctl_run_task }}"
+  command: sysctl -p
+  when: sysctl_reload and sysctl_run_task and sysctltemplates.changed
 
 - name: Reload sysctl settings with system flag
-  shell: sysctl --system
-  when: "{{ sysctl_reload }} and {{ sysctl_run_task }}"
+  command: sysctl --system
+  when: sysctl_reload and sysctl_run_task and sysctltemplates.changed
 
 - name: Ensure PAM entries
   lineinfile: >
@@ -21,4 +23,4 @@
     line='session required pam_limits.so' state=present
   with_items:
     - "{{ pam_files_to_check }}"
-  when: "{{ pam_run_task}}"
+  when: pam_run_task
