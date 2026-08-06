@@ -18,11 +18,11 @@ Role Variables with their default settings
     # Sysctl variables
 
     sysctl_file_name: sysctl.conf # The file that will be created in /etc/sysctl.d/ (Must end with .conf)
-    sysctl_user: roota # The owner of that file
+    sysctl_user: root # The owner of that file
     sysctl_group: root # The group of that file
     sysctl_chmod: "0644" # The permissions of that file
     sysctl_run_task: True # Whether the task should be run
-    sysctl_reload: True # Whether sysctl should be reloaded (sysctl -p)
+    sysctl_reload: True # Whether sysctl should be reloaded (sysctl --system)
     # See below for example
     sysctl_values: []
 

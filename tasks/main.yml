@@ -10,10 +10,6 @@
   register: sysctltemplates
 
 - name: Reload sysctl settings
-  command: sysctl -p
-  when: sysctl_reload and sysctl_run_task and sysctltemplates.changed
-
-- name: Reload sysctl settings with system flag
   command: sysctl --system
   when: sysctl_reload and sysctl_run_task and sysctltemplates.changed
 
